@@ -11,7 +11,7 @@ const arr =[
    }
           ];
 
-arr[2](arr[1].name);
+// arr[2](arr[1].name);
 
 
 function greeting(){
@@ -21,7 +21,7 @@ function greeting(){
    },3000);
 }
 
-greeting();
+// greeting();
 
 
 const person={
@@ -31,7 +31,7 @@ const person={
        console.log(fullName);
    }
 };
-//person.getFullName();
+// //person.getFullName();
 
 const member ={
    firstName : "think",
@@ -52,16 +52,16 @@ const name={
        return firstname;
    }
 };
-console.log(name);
+// console.log(name);
 
 let fullName = person.getFullName.bind(member);
-fullName();
+// fullName();
 
 const names ={
    firstName:"josh",
    lastName :"bob"
 };
-person.getFullName.apply(names);
+// person.getFullName.apply(names);
 
 
 // _.extend(member,person,person2);
@@ -89,18 +89,18 @@ setTimeout(()=>{
 
 // array methods
 const fruits = ["apple","oranges"];
-console.log(fruits);
+// console.log(fruits);
 
 //push adds an element to the array-stack
 fruits.push("bananas","ovacado","grapes","tomato");
-console.log(fruits);
+// console.log(fruits);
 fruits.pop();
-console.log(fruits);
+// console.log(fruits);
 fruits.shift();
-console.log(fruits);
+// console.log(fruits);
 // unshift adds element to the array
 fruits.unshift("apple");
-console.log(fruits);
+// console.log(fruits);
 
 // function constructor
 function Person(firstName,secondName){
@@ -114,10 +114,10 @@ Person.prototype.getFullName = function(){
 };
 
 let person4 = new Person("clement","ochieng");
-console.log(person4.getFullName());
+// console.log(person4.getFullName());
 
 let person3 = new Person("john","doe");
-console.log(person3);
+// console.log(person3);
 
 
 //object.create
@@ -133,11 +133,11 @@ let man = Object.create(personObject);
 man.firstName = "James";
 man.lastName = "Bob";
 
-console.log(man);
+// console.log(man);
 
-console.log(man.greet());
+// console.log(man.greet());
 
-// classes  ES6
+//classes  ES6
 class Car{
    constructor(name){
       this.name = name;
@@ -168,8 +168,8 @@ class BMW extends Car{
 }
 
 let GLE = new BMW("mercedes");
-console.log(GLE.getName());
-console.log(GLE.getClean());
+// console.log(GLE.getName());
+// console.log(GLE.getClean());
 
 // private fields and methods use # can not be accessed directly from out side class function object
 
@@ -185,5 +185,93 @@ class Model extends Car{
 }
 
 let Mycar = new Model("BMW","M4");
-console.log(Mycar.getNameModel());
+// console.log(Mycar.getNameModel());
 
+// async , promises , fetch , await
+// htpp request
+const getTodos = (callback)=>{
+
+const request = new XMLHttpRequest();
+
+request.addEventListener("readystatechange", ()=>{
+ if(request.readyState === 4 && request.status === 200){
+   // console.log(request.responseText);
+   callback(null,request.responseText);
+ } else if (request.readyState === 4) {
+   // console.log("An error occurred: " + request.status);
+    callback(request.status, null);
+ }
+
+});
+
+request.open("GET","https://jsonplaceholder.typicode.com/todos/");
+request.send();
+};
+getTodos((err, data) => {
+   if (err) {
+     console.log("An error occurred: " + err);
+   } else {
+     console.log("Data received:");
+     console.log(data);
+   }
+ });
+// promises 
+const getTodos2 = () => {
+   return new Promise((resolve, reject) => {
+     const request = new XMLHttpRequest();
+ 
+     request.addEventListener("readystatechange", () => {
+       if (request.readyState === 4 && request.status === 200) {
+         const data = JSON.parse(request.responseText);
+         resolve(data); // Resolves the promise with the parsed data
+       } else if (request.readyState === 4) {
+         reject(request.status); // Rejects the promise with the error status
+       }
+     });
+ 
+     request.open("GET", "https://jsonplaceholder.typicode.com/todos/");
+     request.send();
+   });
+ };
+ 
+ // Using the Promise
+ getTodos2()
+   .then((data) => {
+     console.log("Promise resolved:", data);
+   })
+   .catch((err) => {
+     console.log("Promise rejected:", err);
+   });
+
+//  // API request
+ fetch("https://jsonplaceholder.typicode.com/todos/").then((response)=>{
+     console.log("data resolved", response);
+     return response.json()
+ })
+ .then((data)=>{
+   console.log(data)
+ })
+ .catch((err)=>{
+console.log("could not fetch data", err)
+ });
+ // async and await
+
+ const getUser = async () => {
+   const response = await fetch("https://jsonplaceholder.typicode.com/users/");
+ 
+   if (response.status !== 200) {
+     throw new Error("Could not fetch data");
+   }
+ 
+   const data = await response.json(); // Await parsing the JSON
+   return data;
+ };
+ 
+ getUser()
+   .then((data) => {
+     console.log("Resolved:", data);
+   })
+   .catch((err) => {
+     console.log("Response rejected:", err.message);
+   });
+ 
