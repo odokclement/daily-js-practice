@@ -44,11 +44,10 @@ function Person(firstName,secondName){
         return`hello  ${this.name}`;
      }
      // static key word
-     //porperties and methods created using the static key are not placed on the prototype chain
-     // they are attached to the class function object i.e Car
-     // they dont reference any of the fields
+     //static methods and properties belong to the  class  itself and not the instance
+     // hence are not available in the prototype chain 
      static residence = "Earth";
-  
+     
      static  greet(){
         return "good morning";
      }
@@ -84,4 +83,24 @@ function Person(firstName,secondName){
   let Mycar = new Model("BMW","M4");
   // console.log(Mycar.getNameModel());
    
+  // getter and setter
+  class Rectangle {
+    constructor(width, height) {
+      this.width = width;
+      this.height = height;
+    }
+    get area() {
+      return this.width * this.height;
+    }
+    set area(value) {
+      this.width = Math.sqrt(value);
+      this.height = Math.sqrt(value);
+    }
+  }
+  
+  const rect = new Rectangle(10, 20);
+  console.log(rect.area); // 200
+  rect.area = 100;
+  console.log(rect.width); // 10
+  console.log(rect.height); // 10
   
