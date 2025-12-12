@@ -1,2 +1,2 @@
 ## Javascripts weird parts
-##Javascript under the hood
+Javascript under the hood
